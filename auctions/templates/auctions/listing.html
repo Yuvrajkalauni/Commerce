@@ -24,7 +24,27 @@
             {% endif %}
         </div>
 
-        
+        <div class="row mt-4">            
+            <div class="col-md-6 mx-auto">
+                <div class="card">
+                    <img src="{{ listing.image_url }}" class="card-img-top" alt="Listing Image">
+                    <div class="card-body">
+                        {% if user.is_authenticated and listing.is_active %}
+                            {% if user in listing.watchers.all %}
+                                <form method="POST" action="{% url 'auctions:remove_watch' listing.id %}">
+                                    {% csrf_token %}
+                                    <button class="btn btn-danger" type="submit">Remove from Watchlist</button>
+                                </form>
+                            {% else %}
+                                <form method="POST" action="{% url 'auctions:add_watch' listing.id %}">
+                                    {% csrf_token %}
+                                    <button class="btn btn-info" type="submit">Add to Watchlist</button>
+                                </form>
+                            {% endif %}
+                        {% endif %}        
+                    </div>
+                </div>
+            </div>
 
             <div class="col-md-6 mx-auto">
                 <div class="card">
